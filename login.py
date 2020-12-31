@@ -2,10 +2,7 @@ from tkinter import *
 from tkinter.ttk import Combobox
 from tkinter import messagebox
 import os
-
-#coisas que ainda faltam fazer
-    #validar e-mail
-    #login_ver não funciona direito
+import re
     
 def registar():
     global ecra_registar 
@@ -48,6 +45,7 @@ def registar():
     Button(ecra_registar, text="Registar", background="blue", command = registar_user).place(x=50, y=250)
     
     Button(ecra_registar, text="Sair", background="blue", command = close_window1).place(x=50, y=300)
+    
 
 def close_window1():
     ecra_registar.destroy()
@@ -58,7 +56,9 @@ def registar_user():
     password_info = password.get()
     email_info = email.get()
     perfil_info = perfil.get()
-    
+
+    verificar=email_ver(email_info)
+
     file = open("utilizadores.txt", "a")
     file.write(username_info + ";")
     file.write(email_info + ";")
@@ -72,12 +72,20 @@ def registar_user():
     email_reg.delete(0, END)
     perfil_reg.delete(0, END)
 
-    messagebox.showinfo("Regsito", "Registado com sucesso")
-    close_window1()
+    if verificar==True:
+        messagebox.showinfo("Regsito", "Registado com sucesso")
+        close_window1()
+        tarefas_screen()
+def email_ver(email_info):
+    match= re.search(r"[\w.-]+@[\w.-]+.\w+", email_info)
+    if match:
+        return True
+    else:
+        messagebox.showerror("Error", "Email inválido")
 
 def login():
     
-    global ecra_login, username_ver, password_ver, username_log, password_log, email_log, perfil_log
+    global ecra_login, username_ver, password_ver, username_log, password_log
     ecra_login = Toplevel(window)
     ecra_login.title("Login")
     ecra_login.geometry("300x250")
@@ -103,8 +111,8 @@ def login_ver():
  
     lista_files = os.listdir()
     if user1 in lista_files:
-        file = open("utilizadores.txt", "r")
-        verify = file.read()
+        file1 = open("utilizadores.txt", "r")
+        verify = file1.read()
         if pass1 in verify:
             login_sucess()
         else:
@@ -115,6 +123,7 @@ def login_ver():
 def login_sucess():
     messagebox.showinfo("Login", "Login realizado com sucesso")
     ecra_login.destroy()
+    tarefas_screen()
 
 def password_errada():
     messagebox.showinfo("Login", "Password errada")
@@ -136,5 +145,39 @@ def main_account_screen():
 
     window.mainloop()
 
+def tarefas_screen():
+    ecra_tarefas=Tk()
+    ecra_tarefas.title("Tarefas")
+    ecra_tarefas.geometry("700x500")
+    ecra_tarefas.resizable(1,0)
+    #Implementar menu
+    barra_menu = Menu(ecra_tarefas)
+    #Menu da conta do utilizador
+    contaMenu = Menu(barra_menu, tearoff=0)
+    contaMenu.add_command(label="Editar conta")
+    contaMenu.add_command(label="Abrir")
+    contaMenu.add_separator()
+    contaMenu.add_command(label="Log out")
+    barra_menu.add_cascade(label="Conta", menu=contaMenu)
+
+    #Menu das tarefas
+    tarefaMenu = Menu(barra_menu, tearoff=0)
+    tarefaMenu.add_command(label="Nova tarefa")
+    tarefaMenu.add_command(label="Editar tarefa")
+    barra_menu.add_cascade(label="Tarefas", menu= tarefaMenu)
+    
+    #Menu de produtividade
+    barra_menu.add_command(label="Produtividade")
+
+    #Menu da consulta das atividades agendadas com diversos filtros
+    cons_tafMenu = Menu(barra_menu, tearoff=0)
+    cons_tafMenu.add_command(label="Hoje")
+    cons_tafMenu.add_command(label="Por categoria")
+    cons_tafMenu.add_command(label="Próximas tarefas")
+    cons_tafMenu.add_command(label="Estado das tarefas")
+    barra_menu.add_cascade(label="Consultar Tarefas", menu=cons_tafMenu)
+
+    ecra_tarefas.config(menu= barra_menu)
+    ecra_tarefas.mainloop()
 
 main_account_screen() 
