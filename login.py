@@ -39,7 +39,7 @@ def registar():
     perfil_reg_label = Label(ecra_registar, text="Perfil de utilziador:")
     perfil_reg_label.place(x=50, y= 200)
     lista=["Admin","User"]
-    perfil_reg = Combobox(ecra_registar, values=lista, textvariable=perfil)
+    perfil_reg = Combobox(ecra_registar, state="readonly", values=lista, textvariable=perfil)
     perfil_reg.place(x=160, y=200)
     
     Button(ecra_registar, text="Registar", background="blue", command = registar_user).place(x=50, y=250)
@@ -56,32 +56,36 @@ def registar_user():
     password_info = password.get()
     email_info = email.get()
     perfil_info = perfil.get()
-
+    
     verificar=email_ver(email_info)
 
-    file = open("utilizadores.txt", "a")
-    file.write(username_info + ";")
-    file.write(email_info + ";")
-    file.write(password_info + ";")
-    file.write(perfil_info + ";" + "\n")
-    file.close()
-
-    #apagar da entry combobox
-    username_reg.delete(0, END)
-    password_reg.delete(0, END)
-    email_reg.delete(0, END)
-    perfil_reg.delete(0, END)
-
-    if verificar==True:
-        messagebox.showinfo("Regsito", "Registado com sucesso")
+    if verificar==True:    
+        messagebox.showinfo("Registo", "Registado com sucesso")
+        file = open("utilizadores.txt", "a")
+        file.write(username_info + ";")
+        file.write(email_info + ";")
+        file.write(password_info + ";")
+        file.write(perfil_info + ";" + "\n")
+        file.close()
+    	
+        #apagar da entry, combobox
+        username_reg.delete(0, END)
+        password_reg.delete(0, END)
+        email_reg.delete(0, END)
+        perfil_reg.delete(0, END)
+        
         close_window1()
-        tarefas_screen()
+        login()
+    else:
+        messagebox.showinfo("Regsito", "Registado sem sucesso, tente novamente")
+        close_window1()
+
 def email_ver(email_info):
-    match= re.search(r"[\w.-]+@[\w.-]+.\w+", email_info)
+    match = re.search(r"[\w.-]+@[\w.-]+.\w+", email_info)
     if match:
         return True
     else:
-        messagebox.showerror("Error", "Email inválido")
+        messagebox.showerror("Erro", "E-mail inválido")
 
 def login():
     
@@ -104,25 +108,30 @@ def login():
     Button(ecra_login, text="Login", background="blue", command = login_ver).place(x=200, y=150)
 
 def login_ver():
+
     user1 = username_ver.get()
     pass1 = password_ver.get()
     username_log.delete(0, END)
     password_log.delete(0, END)
  
-    lista_files = os.listdir()
+    file = open("utilizadores.txt", "r")
+    lista_files = file.read()
+    file.close()
     if user1 in lista_files:
-        file1 = open("utilizadores.txt", "r")
-        verify = file1.read()
-        if pass1 in verify:
+        if pass1 in lista_files:
             login_sucess()
         else:
-            password_errada()
+            password_errada()    
     else:
-        user_errado()        
+        user_errado()
 
 def login_sucess():
     messagebox.showinfo("Login", "Login realizado com sucesso")
     ecra_login.destroy()
+    
+    #perfil = admin -> pagina gerir || perfil = user -> tarefas
+    
+    
     tarefas_screen()
 
 def password_errada():
@@ -150,6 +159,10 @@ def tarefas_screen():
     ecra_tarefas.title("Tarefas")
     ecra_tarefas.geometry("700x500")
     ecra_tarefas.resizable(1,0)
+    
+    #Implementar menu
+    barra_menu = Menu(ecra_tarefas)
+    
     #Implementar menu
     barra_menu = Menu(ecra_tarefas)
     #Menu da conta do utilizador
