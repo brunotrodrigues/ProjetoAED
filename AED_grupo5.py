@@ -6,6 +6,9 @@ import re
     
 def registar():
     global ecra_registar 
+
+
+    #bfnd s,m.<dvbdxc
     
     ecra_registar = Toplevel(window)
     ecra_registar.title("Registar")
