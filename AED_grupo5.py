@@ -359,7 +359,15 @@ def ntarefas():
     lbl_estado.place(x=20, y=260)
     cb_estado = Combobox(ecra_ntarefas, state="readonly", values=lista2, textvariable=einicial)
     cb_estado.place(x=120, y=260)
-    #----Adicionar nova tarefa-------
+    #-----------adicionar imagem------
+    imagem_lbl= Label(ecra_ntarefas, text="Imagem", font=("Helvetica",15))
+    imagem_lbl.place(x=60, y=320)
+    canvas_imagem = Canvas(ecra_ntarefas, width = 350, height = 200, bd = 4, relief = "sunken")
+    canvas_imagem.place(x=40, y=350)
+    btn_selcimg = Button(ecra_ntarefas, text="Selecionar imagem", relief="raised", width=20, height=2, bd=3)
+    btn_selcimg.place(x=550, y=350)
+
+    #----Adicionar nova categoria-------
     newcategory= StringVar()
 
     lbl_nvcategoria= Label(ecra_ntarefas, text=" Nova categoria:", font=("Helvetica",10))
@@ -368,10 +376,10 @@ def ntarefas():
     txt_nvcategoria.place(x=470, y=220)
     #------Botão adicionar tarefa----------
     btn_novatarefa = Button(ecra_ntarefas, text="Adicionar tarefa", relief="raised", width=20, height=2, bd=3)
-    btn_novatarefa.place(x=60, y=350)
+    btn_novatarefa.place(x=550, y=400)
 
     btn = Button(ecra_ntarefas, text="Voltar", background="skyblue1", command = voltar)
-    btn.place(x=110, y=400)
+    btn.place(x=600, y=450)
 
 def voltar():
     ecra_ntarefas.destroy()
@@ -418,13 +426,20 @@ def etarefas():
     lbl_nvcategoria.place(x=370,y=220)
     txt_nvcategoria= Entry(ecra_etarefas, textvariable= newcategory)
     txt_nvcategoria.place(x=470, y=220)
+    #-----------adicionar imagem------
+    imagem_lbl= Label(ecra_etarefas, text="Imagem", font=("Helvetica",15))
+    imagem_lbl.place(x=60, y=320)
+    canvas_imagem = Canvas(ecra_etarefas, width = 350, height = 200, bd = 4, relief = "sunken")
+    canvas_imagem.place(x=40, y=350)
+    btn_selcimg = Button(ecra_etarefas, text="Selecionar imagem", relief="raised", width=20, height=2, bd=3)
+    btn_selcimg.place(x=530, y=350)
     #Atribuir tarefa-----
     lbl_atribuir= Label(ecra_etarefas, text=" Atribuir tarefa:", font=("Helvetica",15))
-    lbl_atribuir.place(x=100, y=350)
+    lbl_atribuir.place(x=500, y=20)
     lbl_utilizador= Label(ecra_etarefas, text=" Utilizador:", font=("Helvetica",10))
-    lbl_utilizador.place(x=20, y=390)
+    lbl_utilizador.place(x=470, y=60)
     text_utilizador = Entry(ecra_etarefas, text="")
-    text_utilizador.place(x=120, y=390)
+    text_utilizador.place(x=570, y=60)
     #------Botão adicionar tarefa----------
     btn_edtarefa = Button(ecra_etarefas, text="Editar tarefa", relief="raised", width=20, height=2, bd=3)
     btn_edtarefa.place(x=530, y=400)
