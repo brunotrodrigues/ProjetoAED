@@ -69,7 +69,7 @@ def registar_user():
 
     if verificar==True:    
         messagebox.showinfo("Registo", "Registado com sucesso")
-        file = open("utilizadores.txt", "a")
+        file = open("ficheiros\utilizadores.txt", "a")
         file.write(username_info + ";")
         file.write(email_info + ";")
         file.write(password_info + ";")
@@ -130,7 +130,7 @@ def login_ver():
     #perfil_log.delete(0, END)
 
  
-    file = open("utilizadores.txt", "r")
+    file = open("ficheiros\utilizadores.txt", "r")
     lista_files = file.read()
     file.close()
     if user1 in lista_files:
