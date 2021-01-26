@@ -335,9 +335,11 @@ def voltar2():
 def ntarefas():
     ecra_tarefas.withdraw()
     
-    global ecra_ntarefas, newtask_des, ntdes, newtask_cat, ntcat, categoria, einicial, newtask_ei
+    global ecra_ntarefas, newtask_des, ntdes, newtask_cat, ntcat, categoria, einicial, newtask_ei, nvtarefa, comentario
     categoria = StringVar()
     einicial = StringVar()
+    nvtarefa = StringVar()
+    comentario = StringVar()
 
     ecra_ntarefas=Tk()
     ecra_ntarefas.title("Nova Tarefas")
@@ -348,12 +350,12 @@ def ntarefas():
     #-----------------Nova Tarefa---------------
     lbl_novatarefa = Label(ecra_ntarefas, text="Tarefa Nova:", font=("Helvetica", 10))
     lbl_novatarefa.place(x=20, y=60)
-    text_novatarefa = Text(ecra_ntarefas, width=30, height=3, relief="sunken", bd=2)
+    text_novatarefa = Text(ecra_ntarefas, width=30, height=3, relief="sunken", bd=2, variable=nvtarefa)
     text_novatarefa.place(x=120, y=45)
     #--------------Comentário-------------
     lbl_comentário = Label(ecra_ntarefas, text="Comentário:", font=("Helvetica",10))
     lbl_comentário.place(x=20, y=140)
-    text_comentário = Text(ecra_ntarefas, width=30, height=3, relief="sunken", bd=2)
+    text_comentário = Text(ecra_ntarefas, width=30, height=3, relief="sunken", bd=2, variable=comentario)
     text_comentário.place(x=120, y=125)
     
     
@@ -383,15 +385,28 @@ def ntarefas():
     imagem_lbl.place(x=60, y=320)
     canvas_imagem = Canvas(ecra_ntarefas, width = 350, height = 200, bd = 4, relief = "sunken")
     canvas_imagem.place(x=40, y=350)
-    btn_selcimg = Button(ecra_ntarefas, text="Selecionar imagem", relief="raised", width=20, height=2, bd=3)
+    btn_selcimg = Button(ecra_ntarefas, text="Selecionar imagem", relief="raised", width=20, height=2, bd=3, command=addimg)
     btn_selcimg.place(x=550, y=350)
 
     #------Botão adicionar tarefa----------
-    btn_novatarefa = Button(ecra_ntarefas, text="Adicionar tarefa", relief="raised", width=20, height=2, bd=3)
+    btn_novatarefa = Button(ecra_ntarefas, text="Adicionar tarefa", relief="raised", width=20, height=2, bd=3, command=add_tarefa)
     btn_novatarefa.place(x=550, y=400)
 
     btn = Button(ecra_ntarefas, text="Voltar", background="skyblue1", command = voltar)
     btn.place(x=600, y=450)
+
+def add_tarefa():
+    tarefa=nvtarefa.get()
+    comment=comentario.get()
+
+    file = open("tarefas.txt", "a")
+    file.write(tarefa + ";")
+    file.write(comment + ";")
+
+    file.close()
+
+def addimg():
+    filename = filedialog.askopenfilename(title="Select file", filetypes=(("jpeg files", "*.jpg"), ("png files", "*.png"), ("all files", "*.*")))
 
 def voltar():
     ecra_ntarefas.destroy()
